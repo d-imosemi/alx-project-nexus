@@ -1,2 +1,2 @@
-web: gunicorn giveaway.wsgi
+gunicorn jobboard_backend.wsgi:application
 

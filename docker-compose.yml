@@ -1,0 +1,15 @@
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# environment variables or use docker-compose defaults
+export POSTGRES_DB=jobboard
+export POSTGRES_USER=jobboard_user
+export POSTGRES_PASSWORD=secretpassword
+export POSTGRES_HOST=127.0.0.1
+export POSTGRES_PORT=5432
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser   # optional
+python manage.py runserver

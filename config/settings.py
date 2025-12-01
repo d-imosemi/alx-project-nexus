@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['nexusjobs.onrender.com']
+ALLOWED_HOSTS = ['nexusjobs.onrender.com', '127.0.0.1']
 
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -150,6 +150,13 @@ MIDDLEWARE = [
 
 if not DEBUG:
     MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware', # for production
     ]
 

@@ -1,2 +1,2 @@
-gunicorn jobboard_backend.wsgi:application
+gunicorn config.wsgi:application
 

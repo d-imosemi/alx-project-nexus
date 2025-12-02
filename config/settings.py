@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_filters',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 
     # apps
     'jobs',

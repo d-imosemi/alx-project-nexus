@@ -29,11 +29,3 @@ class UserSerializer(serializers.ModelSerializer):
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
-
-    def validate(self, attrs):
-        self.token = attrs["refresh"]
-        return attrs
-
-    def save(self, **kwargs):
-        from rest_framework_simplejwt.tokens import RefreshToken
-        RefreshToken(self.token).blacklist()

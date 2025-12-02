@@ -1,7 +1,9 @@
-from rest_framework import generics, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .serializers import LogoutSerializer, RegisterSerializer, UserSerializer
+from rest_framework import generics, permissions, status
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
@@ -13,11 +15,22 @@ class LogoutView(generics.GenericAPIView):
     serializer_class = LogoutSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
+        """
+        Logout the user by blacklisting their refresh token.
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"message": "Logged out successfully"})
+
+        # Get refresh token from validated data
+        refresh_token = serializer.validated_data.get("refresh")
+        token = RefreshToken(refresh_token)
+        token.blacklist()  
+
+        return Response(
+            {"message": "Logged out successfully"}, 
+            status=status.HTTP_205_RESET_CONTENT
+        )
 
 
 # Get/Update User Profile
